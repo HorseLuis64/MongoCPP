@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/horse_pn64/HorseDev/CPP/con2/build",
+  "command": "/usr/bin/g++ -I/home/horse_pn64/HorseDev/CPP/con2/include -I/usr/local/include/mongocxx/v_noabi -I/usr/local/include/bsoncxx/v_noabi -g -std=gnu++17 -o CMakeFiles/MongoExample.dir/src/db_handler.cpp.o -c /home/horse_pn64/HorseDev/CPP/con2/src/db_handler.cpp",
+  "file": "/home/horse_pn64/HorseDev/CPP/con2/src/db_handler.cpp",
+  "output": "CMakeFiles/MongoExample.dir/src/db_handler.cpp.o"
+},
+{
+  "directory": "/home/horse_pn64/HorseDev/CPP/con2/build",
+  "command": "/usr/bin/g++ -I/home/horse_pn64/HorseDev/CPP/con2/include -I/usr/local/include/mongocxx/v_noabi -I/usr/local/include/bsoncxx/v_noabi -g -std=gnu++17 -o CMakeFiles/MongoExample.dir/src/main.cpp.o -c /home/horse_pn64/HorseDev/CPP/con2/src/main.cpp",
+  "file": "/home/horse_pn64/HorseDev/CPP/con2/src/main.cpp",
+  "output": "CMakeFiles/MongoExample.dir/src/main.cpp.o"
+}
+]

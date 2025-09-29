@@ -1,0 +1,3 @@
+/home/horse_pn64/HorseDev/CPP/con2/build/CMakeFiles/MongoExample.dir
+/home/horse_pn64/HorseDev/CPP/con2/build/CMakeFiles/edit_cache.dir
+/home/horse_pn64/HorseDev/CPP/con2/build/CMakeFiles/rebuild_cache.dir
