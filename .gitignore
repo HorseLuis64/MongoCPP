@@ -1,0 +1,44 @@
+# --- CMake ---
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# --- Carpetas de build ---
+build/
+build-*/
+out/
+bin/
+lib/
+
+# --- Archivos intermedios ---
+*.o
+*.obj
+*.lo
+*.la
+*.a
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+*.app
+
+# --- Archivos de backup ---
+*~
+*.swp
+*.swo
+*.tmp
+*.bak
+
+# --- Archivos de IDEs ---
+.vscode/
+.idea/
+*.user
+*.workspace
+*.code-workspace
+
+# --- Archivos del sistema ---
+.DS_Store
+Thumbs.db
