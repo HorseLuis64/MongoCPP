@@ -1,6 +1,3 @@
 {
-    "files.associations": {
-        "string": "cpp",
-        "string_view": "cpp"
-    }
+    "cmake.sourceDirectory": "/home/horse_pn64/HorseDev/CPP/TareaDB/weboo"
 }

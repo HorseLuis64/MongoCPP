@@ -1,0 +1,1 @@
+em++ -sFETCH -sUSE_ES6_IMPORT_META=0 -sALLOW_MEMORY_GROWTH=1 --shell-file /home/horse_pn64/HorseDev/CPP/TareaDB/weboo/index.html CMakeFiles/frontend.dir/main.cpp.o -o main.html 

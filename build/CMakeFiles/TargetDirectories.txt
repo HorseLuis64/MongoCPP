@@ -1,3 +1,8 @@
-/home/horse_pn64/HorseDev/CPP/con2/build/CMakeFiles/MongoExample.dir
-/home/horse_pn64/HorseDev/CPP/con2/build/CMakeFiles/edit_cache.dir
-/home/horse_pn64/HorseDev/CPP/con2/build/CMakeFiles/rebuild_cache.dir
+/home/horse_pn64/HorseDev/CPP/TareaDB/build/CMakeFiles/edit_cache.dir
+/home/horse_pn64/HorseDev/CPP/TareaDB/build/CMakeFiles/rebuild_cache.dir
+/home/horse_pn64/HorseDev/CPP/TareaDB/build/con2/CMakeFiles/MongoExample.dir
+/home/horse_pn64/HorseDev/CPP/TareaDB/build/con2/CMakeFiles/edit_cache.dir
+/home/horse_pn64/HorseDev/CPP/TareaDB/build/con2/CMakeFiles/rebuild_cache.dir
+/home/horse_pn64/HorseDev/CPP/TareaDB/build/weboo/CMakeFiles/frontend.dir
+/home/horse_pn64/HorseDev/CPP/TareaDB/build/weboo/CMakeFiles/edit_cache.dir
+/home/horse_pn64/HorseDev/CPP/TareaDB/build/weboo/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/MongoExample.dir/src/db_handler.cpp.o CMakeFiles/MongoExample.dir/src/main.cpp.o -o MongoExample   -L/usr/local/lib  -Wl,-rpath,/usr/local/lib -lmongocxx -lbsoncxx -lpthread -lpistache 

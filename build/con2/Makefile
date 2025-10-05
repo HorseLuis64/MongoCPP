@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/horse_pn64/HorseDev/CPP/TareaDB/build/CMakeFiles /home/horse_pn64/HorseDev/CPP/TareaDB/build//CMakeFiles/progress.marks
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/horse_pn64/HorseDev/CPP/TareaDB/build/CMakeFiles /home/horse_pn64/HorseDev/CPP/TareaDB/build/con2//CMakeFiles/progress.marks
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 con2/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/horse_pn64/HorseDev/CPP/TareaDB/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 con2/clean
 .PHONY : clean
 
 # The main clean target
@@ -103,44 +103,80 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 con2/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 con2/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named MongoExample
+# Convenience name for target.
+con2/CMakeFiles/MongoExample.dir/rule:
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 con2/CMakeFiles/MongoExample.dir/rule
+.PHONY : con2/CMakeFiles/MongoExample.dir/rule
 
-# Build rule for target.
-MongoExample: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MongoExample
+# Convenience name for target.
+MongoExample: con2/CMakeFiles/MongoExample.dir/rule
 .PHONY : MongoExample
 
 # fast build rule for target.
 MongoExample/fast:
-	$(MAKE) $(MAKESILENT) -f con2/CMakeFiles/MongoExample.dir/build.make con2/CMakeFiles/MongoExample.dir/build
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(MAKE) $(MAKESILENT) -f con2/CMakeFiles/MongoExample.dir/build.make con2/CMakeFiles/MongoExample.dir/build
 .PHONY : MongoExample/fast
 
-#=============================================================================
-# Target rules for targets named frontend
+src/db_handler.o: src/db_handler.cpp.o
+.PHONY : src/db_handler.o
 
-# Build rule for target.
-frontend: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 frontend
-.PHONY : frontend
+# target to build an object file
+src/db_handler.cpp.o:
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(MAKE) $(MAKESILENT) -f con2/CMakeFiles/MongoExample.dir/build.make con2/CMakeFiles/MongoExample.dir/src/db_handler.cpp.o
+.PHONY : src/db_handler.cpp.o
 
-# fast build rule for target.
-frontend/fast:
-	$(MAKE) $(MAKESILENT) -f weboo/CMakeFiles/frontend.dir/build.make weboo/CMakeFiles/frontend.dir/build
-.PHONY : frontend/fast
+src/db_handler.i: src/db_handler.cpp.i
+.PHONY : src/db_handler.i
+
+# target to preprocess a source file
+src/db_handler.cpp.i:
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(MAKE) $(MAKESILENT) -f con2/CMakeFiles/MongoExample.dir/build.make con2/CMakeFiles/MongoExample.dir/src/db_handler.cpp.i
+.PHONY : src/db_handler.cpp.i
+
+src/db_handler.s: src/db_handler.cpp.s
+.PHONY : src/db_handler.s
+
+# target to generate assembly for a file
+src/db_handler.cpp.s:
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(MAKE) $(MAKESILENT) -f con2/CMakeFiles/MongoExample.dir/build.make con2/CMakeFiles/MongoExample.dir/src/db_handler.cpp.s
+.PHONY : src/db_handler.cpp.s
+
+src/main.o: src/main.cpp.o
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(MAKE) $(MAKESILENT) -f con2/CMakeFiles/MongoExample.dir/build.make con2/CMakeFiles/MongoExample.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(MAKE) $(MAKESILENT) -f con2/CMakeFiles/MongoExample.dir/build.make con2/CMakeFiles/MongoExample.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(MAKE) $(MAKESILENT) -f con2/CMakeFiles/MongoExample.dir/build.make con2/CMakeFiles/MongoExample.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
 # Help Target
 help:
@@ -151,7 +187,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... MongoExample"
-	@echo "... frontend"
+	@echo "... src/db_handler.o"
+	@echo "... src/db_handler.i"
+	@echo "... src/db_handler.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 .PHONY : help
 
 
@@ -163,6 +204,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/horse_pn64/HorseDev/CPP/TareaDB/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

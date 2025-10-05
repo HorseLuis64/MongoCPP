@@ -54,51 +54,110 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/horse_pn64/HorseDev/CPP/con2
+CMAKE_SOURCE_DIR = /home/horse_pn64/HorseDev/CPP/TareaDB
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/horse_pn64/HorseDev/CPP/con2/build
+CMAKE_BINARY_DIR = /home/horse_pn64/HorseDev/CPP/TareaDB/build
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/MongoExample.dir/all
+all: con2/all
+all: weboo/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: con2/preinstall
+preinstall: weboo/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/MongoExample.dir/clean
+clean: con2/clean
+clean: weboo/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/MongoExample.dir
+# Directory level rules for directory con2
+
+# Recursive "all" directory target.
+con2/all: con2/CMakeFiles/MongoExample.dir/all
+.PHONY : con2/all
+
+# Recursive "preinstall" directory target.
+con2/preinstall:
+.PHONY : con2/preinstall
+
+# Recursive "clean" directory target.
+con2/clean: con2/CMakeFiles/MongoExample.dir/clean
+.PHONY : con2/clean
+
+#=============================================================================
+# Directory level rules for directory weboo
+
+# Recursive "all" directory target.
+weboo/all: weboo/CMakeFiles/frontend.dir/all
+.PHONY : weboo/all
+
+# Recursive "preinstall" directory target.
+weboo/preinstall:
+.PHONY : weboo/preinstall
+
+# Recursive "clean" directory target.
+weboo/clean: weboo/CMakeFiles/frontend.dir/clean
+.PHONY : weboo/clean
+
+#=============================================================================
+# Target rules for target con2/CMakeFiles/MongoExample.dir
 
 # All Build rule for target.
-CMakeFiles/MongoExample.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MongoExample.dir/build.make CMakeFiles/MongoExample.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MongoExample.dir/build.make CMakeFiles/MongoExample.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/horse_pn64/HorseDev/CPP/con2/build/CMakeFiles --progress-num=1,2,3 "Built target MongoExample"
-.PHONY : CMakeFiles/MongoExample.dir/all
+con2/CMakeFiles/MongoExample.dir/all:
+	$(MAKE) $(MAKESILENT) -f con2/CMakeFiles/MongoExample.dir/build.make con2/CMakeFiles/MongoExample.dir/depend
+	$(MAKE) $(MAKESILENT) -f con2/CMakeFiles/MongoExample.dir/build.make con2/CMakeFiles/MongoExample.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/horse_pn64/HorseDev/CPP/TareaDB/build/CMakeFiles --progress-num=1,2,3 "Built target MongoExample"
+.PHONY : con2/CMakeFiles/MongoExample.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/MongoExample.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/horse_pn64/HorseDev/CPP/con2/build/CMakeFiles 3
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/MongoExample.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/horse_pn64/HorseDev/CPP/con2/build/CMakeFiles 0
-.PHONY : CMakeFiles/MongoExample.dir/rule
+con2/CMakeFiles/MongoExample.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/horse_pn64/HorseDev/CPP/TareaDB/build/CMakeFiles 3
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 con2/CMakeFiles/MongoExample.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/horse_pn64/HorseDev/CPP/TareaDB/build/CMakeFiles 0
+.PHONY : con2/CMakeFiles/MongoExample.dir/rule
 
 # Convenience name for target.
-MongoExample: CMakeFiles/MongoExample.dir/rule
+MongoExample: con2/CMakeFiles/MongoExample.dir/rule
 .PHONY : MongoExample
 
 # clean rule for target.
-CMakeFiles/MongoExample.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MongoExample.dir/build.make CMakeFiles/MongoExample.dir/clean
-.PHONY : CMakeFiles/MongoExample.dir/clean
+con2/CMakeFiles/MongoExample.dir/clean:
+	$(MAKE) $(MAKESILENT) -f con2/CMakeFiles/MongoExample.dir/build.make con2/CMakeFiles/MongoExample.dir/clean
+.PHONY : con2/CMakeFiles/MongoExample.dir/clean
+
+#=============================================================================
+# Target rules for target weboo/CMakeFiles/frontend.dir
+
+# All Build rule for target.
+weboo/CMakeFiles/frontend.dir/all:
+	$(MAKE) $(MAKESILENT) -f weboo/CMakeFiles/frontend.dir/build.make weboo/CMakeFiles/frontend.dir/depend
+	$(MAKE) $(MAKESILENT) -f weboo/CMakeFiles/frontend.dir/build.make weboo/CMakeFiles/frontend.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/horse_pn64/HorseDev/CPP/TareaDB/build/CMakeFiles --progress-num=4,5 "Built target frontend"
+.PHONY : weboo/CMakeFiles/frontend.dir/all
+
+# Build rule for subdir invocation for target.
+weboo/CMakeFiles/frontend.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/horse_pn64/HorseDev/CPP/TareaDB/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 weboo/CMakeFiles/frontend.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/horse_pn64/HorseDev/CPP/TareaDB/build/CMakeFiles 0
+.PHONY : weboo/CMakeFiles/frontend.dir/rule
+
+# Convenience name for target.
+frontend: weboo/CMakeFiles/frontend.dir/rule
+.PHONY : frontend
+
+# clean rule for target.
+weboo/CMakeFiles/frontend.dir/clean:
+	$(MAKE) $(MAKESILENT) -f weboo/CMakeFiles/frontend.dir/build.make weboo/CMakeFiles/frontend.dir/clean
+.PHONY : weboo/CMakeFiles/frontend.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
