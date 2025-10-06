@@ -8,15 +8,22 @@ weboo/CMakeFiles/frontend.dir/main.cpp.o: \
   /usr/share/emscripten/cache/sysroot/include/emscripten/em_js.h \
   /usr/share/emscripten/cache/sysroot/include/emscripten/wget.h \
   /usr/share/emscripten/cache/sysroot/include/emscripten/version.h \
+  /usr/share/emscripten/cache/sysroot/include/emscripten/html5.h \
+  /usr/share/emscripten/cache/sysroot/include/pthread.h \
+  /usr/share/emscripten/cache/sysroot/include/features.h \
+  /usr/share/emscripten/cache/sysroot/include/bits/alltypes.h \
+  /usr/share/emscripten/cache/sysroot/include/sched.h \
+  /usr/share/emscripten/cache/sysroot/include/compat/time.h \
+  /usr/share/emscripten/cache/sysroot/include/time.h \
+  /usr/share/emscripten/cache/sysroot/include/emscripten/eventloop.h \
+  /usr/share/emscripten/cache/sysroot/include/emscripten/console.h \
+  /usr/share/emscripten/cache/sysroot/include/emscripten/html5_webgl.h \
   /usr/share/emscripten/cache/sysroot/include/emscripten/fetch.h \
   /usr/share/emscripten/cache/sysroot/include/c++/v1/limits.h \
   /usr/share/emscripten/cache/sysroot/include/c++/v1/__config \
   /usr/share/emscripten/cache/sysroot/include/c++/v1/__config_site \
-  /usr/share/emscripten/cache/sysroot/include/pthread.h \
   /usr/lib/llvm-15/lib/clang/15.0.7/include/limits.h \
   /usr/share/emscripten/cache/sysroot/include/limits.h \
-  /usr/share/emscripten/cache/sysroot/include/features.h \
-  /usr/share/emscripten/cache/sysroot/include/bits/alltypes.h \
   /usr/share/emscripten/cache/sysroot/include/bits/limits.h \
   /usr/share/emscripten/cache/sysroot/include/c++/v1/stddef.h \
   /usr/lib/llvm-15/lib/clang/15.0.7/include/stddef.h \
@@ -26,13 +33,9 @@ weboo/CMakeFiles/frontend.dir/main.cpp.o: \
   /usr/lib/llvm-15/lib/clang/15.0.7/include/stdint.h \
   /usr/share/emscripten/cache/sysroot/include/stdint.h \
   /usr/share/emscripten/cache/sysroot/include/bits/stdint.h \
-  /usr/share/emscripten/cache/sysroot/include/emscripten/html5.h \
-  /usr/share/emscripten/cache/sysroot/include/sched.h \
-  /usr/share/emscripten/cache/sysroot/include/compat/time.h \
-  /usr/share/emscripten/cache/sysroot/include/time.h \
-  /usr/share/emscripten/cache/sysroot/include/emscripten/eventloop.h \
-  /usr/share/emscripten/cache/sysroot/include/emscripten/console.h \
-  /usr/share/emscripten/cache/sysroot/include/emscripten/html5_webgl.h \
+  /usr/share/emscripten/cache/sysroot/include/GLES2/gl2.h \
+  /usr/share/emscripten/cache/sysroot/include/GLES2/gl2platform.h \
+  /usr/share/emscripten/cache/sysroot/include/KHR/khrplatform.h \
   /usr/share/emscripten/cache/sysroot/include/c++/v1/iostream \
   /usr/share/emscripten/cache/sysroot/include/c++/v1/ios \
   /usr/share/emscripten/cache/sysroot/include/c++/v1/__locale \
@@ -303,30 +306,4 @@ weboo/CMakeFiles/frontend.dir/main.cpp.o: \
   /usr/share/emscripten/cache/sysroot/include/compat/stdarg.h \
   /usr/lib/llvm-15/lib/clang/15.0.7/include/stdarg.h \
   /usr/share/emscripten/cache/sysroot/include/c++/v1/streambuf \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/__bsd_locale_fallbacks.h \
-  /home/horse_pn64/HorseDev/CPP/TareaDB/weboo/include/json.hpp \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/vector \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/__split_buffer \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/array \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/forward_list \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/map \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/__functional/is_transparent.h \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/__node_handle \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/optional \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/__tree \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/unordered_map \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/__hash_table \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/cmath \
-  /usr/share/emscripten/cache/sysroot/include/compat/math.h \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/math.h \
-  /usr/share/emscripten/cache/sysroot/include/math.h \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/valarray \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/cassert \
-  /usr/share/emscripten/cache/sysroot/include/assert.h \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/filesystem \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/stack \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/deque \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/iomanip \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/numeric \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/clocale \
-  /usr/share/emscripten/cache/sysroot/include/c++/v1/any
+  /usr/share/emscripten/cache/sysroot/include/c++/v1/__bsd_locale_fallbacks.h

@@ -44,6 +44,8 @@ private:
 
     // Ruta estática para frontend
     Routes::Get(router, "/*", Routes::bind(&RestApi::serveStatic, this));
+    
+
 }
 
 void serveStatic(const Rest::Request& req, Http::ResponseWriter resp) {
@@ -160,7 +162,7 @@ void serveStatic(const Rest::Request& req, Http::ResponseWriter resp) {
         .add<Pistache::Http::Header::AccessControlAllowHeaders>("Content-Type");
 }
 
-
+  public:
     std::shared_ptr<Http::Endpoint> httpEndpoint;
     Rest::Router router;
     std::shared_ptr<hdb::MongoHandler> handler;
@@ -170,13 +172,15 @@ int main() {
     mongocxx::instance instance{};
     Port port(9080);
     Address addr(Ipv4::any(), port);
-
+    
     auto dbHandler = std::make_shared<hdb::MongoHandler>("test_db", "test_coll");
 
     RestApi api(addr, dbHandler);
     api.init(2);
-    std::cout << "Servidor corriendo en http://localhost:9080\n";
+    std::cout << "Servidor corriendo en http://localhost:9080 docs: " << api.handler->coll.count_documents({}) << "\n";
+    std::cout<<"docs: "<< api.handler->coll.count_documents({});
     api.start();
+    
 
     return 0;
 }
