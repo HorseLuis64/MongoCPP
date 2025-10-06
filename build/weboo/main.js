@@ -1802,6 +1802,11 @@ var ASM_CONSTS = {
       return demangleAll(js);
     }
 
+  function __emscripten_fetch_free(id) {
+    //Note: should just be [id], but indexes off by 1 (see: #8803)
+    delete Fetch.xhrs[id-1];
+  }
+
   function _abort() {
       abort('native code called abort()');
     }
@@ -2750,6 +2755,10 @@ var ASM_CONSTS = {
       HEAP32[((height)>>2)] = screen.height;
     }
 
+  function _emscripten_is_main_browser_thread() {
+      return !ENVIRONMENT_IS_WORKER;
+    }
+
   function _emscripten_memcpy_big(dest, src, num) {
       HEAPU8.copyWithin(dest, src, src + num);
     }
@@ -2886,6 +2895,408 @@ var ASM_CONSTS = {
       registerMouseEventCallback(target, userData, useCapture, callbackfunc, 5, "mousedown", targetThread);
       return 0;
     }
+
+  var Fetch = {xhrs:[],setu64:function(addr, val) {
+      HEAPU32[addr >> 2] = val;
+      HEAPU32[addr + 4 >> 2] = (val / 4294967296)|0;
+    },openDatabase:function(dbname, dbversion, onsuccess, onerror) {
+      try {
+        var openRequest = indexedDB.open(dbname, dbversion);
+      } catch (e) { return onerror(e); }
+  
+      openRequest.onupgradeneeded = (event) => {
+        var db = /** @type {IDBDatabase} */ (event.target.result);
+        if (db.objectStoreNames.contains('FILES')) {
+          db.deleteObjectStore('FILES');
+        }
+        db.createObjectStore('FILES');
+      };
+      openRequest.onsuccess = (event) => onsuccess(event.target.result);
+      openRequest.onerror = (error) => onerror(error);
+    },staticInit:function() {
+      var isMainThread = true;
+  
+      var onsuccess = (db) => {
+        Fetch.dbInstance = db;
+  
+        if (isMainThread) {
+          removeRunDependency('library_fetch_init');
+        }
+      };
+      var onerror = () => {
+        Fetch.dbInstance = false;
+  
+        if (isMainThread) {
+          removeRunDependency('library_fetch_init');
+        }
+      };
+      Fetch.openDatabase('emscripten_filesystem', 1, onsuccess, onerror);
+  
+      if (typeof ENVIRONMENT_IS_FETCH_WORKER == 'undefined' || !ENVIRONMENT_IS_FETCH_WORKER) addRunDependency('library_fetch_init');
+    }};
+  
+  function fetchXHR(fetch, onsuccess, onerror, onprogress, onreadystatechange) {
+    var url = HEAPU32[fetch + 8 >> 2];
+    if (!url) {
+      onerror(fetch, 0, 'no url specified!');
+      return;
+    }
+    var url_ = UTF8ToString(url);
+  
+    var fetch_attr = fetch + 112;
+    var requestMethod = UTF8ToString(fetch_attr);
+    if (!requestMethod) requestMethod = 'GET';
+    var userData = HEAPU32[fetch + 4 >> 2];
+    var fetchAttributes = HEAPU32[fetch_attr + 52 >> 2];
+    var timeoutMsecs = HEAPU32[fetch_attr + 56 >> 2];
+    var withCredentials = !!HEAPU32[fetch_attr + 60 >> 2];
+    var destinationPath = HEAPU32[fetch_attr + 64 >> 2];
+    var userName = HEAPU32[fetch_attr + 68 >> 2];
+    var password = HEAPU32[fetch_attr + 72 >> 2];
+    var requestHeaders = HEAPU32[fetch_attr + 76 >> 2];
+    var overriddenMimeType = HEAPU32[fetch_attr + 80 >> 2];
+    var dataPtr = HEAPU32[fetch_attr + 84 >> 2];
+    var dataLength = HEAPU32[fetch_attr + 88 >> 2];
+  
+    var fetchAttrLoadToMemory = !!(fetchAttributes & 1);
+    var fetchAttrStreamData = !!(fetchAttributes & 2);
+    var fetchAttrPersistFile = !!(fetchAttributes & 4);
+    var fetchAttrAppend = !!(fetchAttributes & 8);
+    var fetchAttrReplace = !!(fetchAttributes & 16);
+    var fetchAttrSynchronous = !!(fetchAttributes & 64);
+    var fetchAttrWaitable = !!(fetchAttributes & 128);
+  
+    var userNameStr = userName ? UTF8ToString(userName) : undefined;
+    var passwordStr = password ? UTF8ToString(password) : undefined;
+  
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = withCredentials;
+    xhr.open(requestMethod, url_, !fetchAttrSynchronous, userNameStr, passwordStr);
+    if (!fetchAttrSynchronous) xhr.timeout = timeoutMsecs; // XHR timeout field is only accessible in async XHRs, and must be set after .open() but before .send().
+    xhr.url_ = url_; // Save the url for debugging purposes (and for comparing to the responseURL that server side advertised)
+    assert(!fetchAttrStreamData, 'streaming uses moz-chunked-arraybuffer which is no longer supported; TODO: rewrite using fetch()');
+    xhr.responseType = 'arraybuffer';
+  
+    if (overriddenMimeType) {
+      var overriddenMimeTypeStr = UTF8ToString(overriddenMimeType);
+      xhr.overrideMimeType(overriddenMimeTypeStr);
+    }
+    if (requestHeaders) {
+      for (;;) {
+        var key = HEAPU32[requestHeaders >> 2];
+        if (!key) break;
+        var value = HEAPU32[requestHeaders + 4 >> 2];
+        if (!value) break;
+        requestHeaders += 8;
+        var keyStr = UTF8ToString(key);
+        var valueStr = UTF8ToString(value);
+        xhr.setRequestHeader(keyStr, valueStr);
+      }
+    }
+    Fetch.xhrs.push(xhr);
+    var id = Fetch.xhrs.length;
+    HEAPU32[fetch + 0 >> 2] = id;
+    var data = (dataPtr && dataLength) ? HEAPU8.slice(dataPtr, dataPtr + dataLength) : null;
+    // TODO: Support specifying custom headers to the request.
+  
+    // Share the code to save the response, as we need to do so both on success
+    // and on error (despite an error, there may be a response, like a 404 page).
+    // This receives a condition, which determines whether to save the xhr's
+    // response, or just 0.
+    function saveResponse(condition) {
+      var ptr = 0;
+      var ptrLen = 0;
+      if (condition) {
+        ptrLen = xhr.response ? xhr.response.byteLength : 0;
+        // The data pointer malloc()ed here has the same lifetime as the emscripten_fetch_t structure itself has, and is
+        // freed when emscripten_fetch_close() is called.
+        ptr = _malloc(ptrLen);
+        HEAPU8.set(new Uint8Array(/** @type{Array<number>} */(xhr.response)), ptr);
+      }
+      HEAPU32[fetch + 12 >> 2] = ptr;
+      Fetch.setu64(fetch + 16, ptrLen);
+    }
+  
+    xhr.onload = (e) => {
+      saveResponse(fetchAttrLoadToMemory && !fetchAttrStreamData);
+      var len = xhr.response ? xhr.response.byteLength : 0;
+      Fetch.setu64(fetch + 24, 0);
+      if (len) {
+        // If the final XHR.onload handler receives the bytedata to compute total length, report that,
+        // otherwise don't write anything out here, which will retain the latest byte size reported in
+        // the most recent XHR.onprogress handler.
+        Fetch.setu64(fetch + 32, len);
+      }
+      HEAPU16[fetch + 40 >> 1] = xhr.readyState;
+      HEAPU16[fetch + 42 >> 1] = xhr.status;
+      if (xhr.statusText) stringToUTF8(xhr.statusText, fetch + 44, 64);
+      if (xhr.status >= 200 && xhr.status < 300) {
+        if (onsuccess) onsuccess(fetch, xhr, e);
+      } else {
+        if (onerror) onerror(fetch, xhr, e);
+      }
+    };
+    xhr.onerror = (e) => {
+      saveResponse(fetchAttrLoadToMemory);
+      var status = xhr.status; // XXX TODO: Overwriting xhr.status doesn't work here, so don't override anywhere else either.
+      Fetch.setu64(fetch + 24, 0);
+      Fetch.setu64(fetch + 32, xhr.response ? xhr.response.byteLength : 0);
+      HEAPU16[fetch + 40 >> 1] = xhr.readyState;
+      HEAPU16[fetch + 42 >> 1] = status;
+      if (onerror) onerror(fetch, xhr, e);
+    };
+    xhr.ontimeout = (e) => {
+      if (onerror) onerror(fetch, xhr, e);
+    };
+    xhr.onprogress = (e) => {
+      var ptrLen = (fetchAttrLoadToMemory && fetchAttrStreamData && xhr.response) ? xhr.response.byteLength : 0;
+      var ptr = 0;
+      if (fetchAttrLoadToMemory && fetchAttrStreamData) {
+        assert(onprogress, 'When doing a streaming fetch, you should have an onprogress handler registered to receive the chunks!');
+        // Allocate byte data in Emscripten heap for the streamed memory block (freed immediately after onprogress call)
+        ptr = _malloc(ptrLen);
+        HEAPU8.set(new Uint8Array(/** @type{Array<number>} */(xhr.response)), ptr);
+      }
+      HEAPU32[fetch + 12 >> 2] = ptr;
+      Fetch.setu64(fetch + 16, ptrLen);
+      Fetch.setu64(fetch + 24, e.loaded - ptrLen);
+      Fetch.setu64(fetch + 32, e.total);
+      HEAPU16[fetch + 40 >> 1] = xhr.readyState;
+      // If loading files from a source that does not give HTTP status code, assume success if we get data bytes
+      if (xhr.readyState >= 3 && xhr.status === 0 && e.loaded > 0) xhr.status = 200;
+      HEAPU16[fetch + 42 >> 1] = xhr.status;
+      if (xhr.statusText) stringToUTF8(xhr.statusText, fetch + 44, 64);
+      if (onprogress) onprogress(fetch, xhr, e);
+      if (ptr) {
+        _free(ptr);
+      }
+    };
+    xhr.onreadystatechange = (e) => {
+      HEAPU16[fetch + 40 >> 1] = xhr.readyState;
+      if (xhr.readyState >= 2) {
+        HEAPU16[fetch + 42 >> 1] = xhr.status;
+      }
+      if (onreadystatechange) onreadystatechange(fetch, xhr, e);
+    };
+    try {
+      xhr.send(data);
+    } catch(e) {
+      if (onerror) onerror(fetch, xhr, e);
+    }
+  }
+  
+  function fetchCacheData(/** @type {IDBDatabase} */ db, fetch, data, onsuccess, onerror) {
+    if (!db) {
+      onerror(fetch, 0, 'IndexedDB not available!');
+      return;
+    }
+  
+    var fetch_attr = fetch + 112;
+    var destinationPath = HEAPU32[fetch_attr + 64 >> 2];
+    if (!destinationPath) destinationPath = HEAPU32[fetch + 8 >> 2];
+    var destinationPathStr = UTF8ToString(destinationPath);
+  
+    try {
+      var transaction = db.transaction(['FILES'], 'readwrite');
+      var packages = transaction.objectStore('FILES');
+      var putRequest = packages.put(data, destinationPathStr);
+      putRequest.onsuccess = (event) => {
+        HEAPU16[fetch + 40 >> 1] = 4; // Mimic XHR readyState 4 === 'DONE: The operation is complete'
+        HEAPU16[fetch + 42 >> 1] = 200; // Mimic XHR HTTP status code 200 "OK"
+        stringToUTF8("OK", fetch + 44, 64);
+        onsuccess(fetch, 0, destinationPathStr);
+      };
+      putRequest.onerror = (error) => {
+        // Most likely we got an error if IndexedDB is unwilling to store any more data for this page.
+        // TODO: Can we identify and break down different IndexedDB-provided errors and convert those
+        // to more HTTP status codes for more information?
+        HEAPU16[fetch + 40 >> 1] = 4; // Mimic XHR readyState 4 === 'DONE: The operation is complete'
+        HEAPU16[fetch + 42 >> 1] = 413; // Mimic XHR HTTP status code 413 "Payload Too Large"
+        stringToUTF8("Payload Too Large", fetch + 44, 64);
+        onerror(fetch, 0, error);
+      };
+    } catch(e) {
+      onerror(fetch, 0, e);
+    }
+  }
+  
+  function fetchLoadCachedData(db, fetch, onsuccess, onerror) {
+    if (!db) {
+      onerror(fetch, 0, 'IndexedDB not available!');
+      return;
+    }
+  
+    var fetch_attr = fetch + 112;
+    var path = HEAPU32[fetch_attr + 64 >> 2];
+    if (!path) path = HEAPU32[fetch + 8 >> 2];
+    var pathStr = UTF8ToString(path);
+  
+    try {
+      var transaction = db.transaction(['FILES'], 'readonly');
+      var packages = transaction.objectStore('FILES');
+      var getRequest = packages.get(pathStr);
+      getRequest.onsuccess = (event) => {
+        if (event.target.result) {
+          var value = event.target.result;
+          var len = value.byteLength || value.length;
+          // The data pointer malloc()ed here has the same lifetime as the emscripten_fetch_t structure itself has, and is
+          // freed when emscripten_fetch_close() is called.
+          var ptr = _malloc(len);
+          HEAPU8.set(new Uint8Array(value), ptr);
+          HEAPU32[fetch + 12 >> 2] = ptr;
+          Fetch.setu64(fetch + 16, len);
+          Fetch.setu64(fetch + 24, 0);
+          Fetch.setu64(fetch + 32, len);
+          HEAPU16[fetch + 40 >> 1] = 4; // Mimic XHR readyState 4 === 'DONE: The operation is complete'
+          HEAPU16[fetch + 42 >> 1] = 200; // Mimic XHR HTTP status code 200 "OK"
+          stringToUTF8("OK", fetch + 44, 64);
+          onsuccess(fetch, 0, value);
+        } else {
+          // Succeeded to load, but the load came back with the value of undefined, treat that as an error since we never store undefined in db.
+          HEAPU16[fetch + 40 >> 1] = 4; // Mimic XHR readyState 4 === 'DONE: The operation is complete'
+          HEAPU16[fetch + 42 >> 1] = 404; // Mimic XHR HTTP status code 404 "Not Found"
+          stringToUTF8("Not Found", fetch + 44, 64);
+          onerror(fetch, 0, 'no data');
+        }
+      };
+      getRequest.onerror = (error) => {
+        HEAPU16[fetch + 40 >> 1] = 4; // Mimic XHR readyState 4 === 'DONE: The operation is complete'
+        HEAPU16[fetch + 42 >> 1] = 404; // Mimic XHR HTTP status code 404 "Not Found"
+        stringToUTF8("Not Found", fetch + 44, 64);
+        onerror(fetch, 0, error);
+      };
+    } catch(e) {
+      onerror(fetch, 0, e);
+    }
+  }
+  
+  function fetchDeleteCachedData(db, fetch, onsuccess, onerror) {
+    if (!db) {
+      onerror(fetch, 0, 'IndexedDB not available!');
+      return;
+    }
+  
+    var fetch_attr = fetch + 112;
+    var path = HEAPU32[fetch_attr + 64 >> 2];
+    if (!path) path = HEAPU32[fetch + 8 >> 2];
+    var pathStr = UTF8ToString(path);
+  
+    try {
+      var transaction = db.transaction(['FILES'], 'readwrite');
+      var packages = transaction.objectStore('FILES');
+      var request = packages.delete(pathStr);
+      request.onsuccess = (event) => {
+        var value = event.target.result;
+        HEAPU32[fetch + 12 >> 2] = 0;
+        Fetch.setu64(fetch + 16, 0);
+        Fetch.setu64(fetch + 24, 0);
+        Fetch.setu64(fetch + 32, 0);
+        HEAPU16[fetch + 40 >> 1] = 4; // Mimic XHR readyState 4 === 'DONE: The operation is complete'
+        HEAPU16[fetch + 42 >> 1] = 200; // Mimic XHR HTTP status code 200 "OK"
+        stringToUTF8("OK", fetch + 44, 64);
+        onsuccess(fetch, 0, value);
+      };
+      request.onerror = (error) => {
+        HEAPU16[fetch + 40 >> 1] = 4; // Mimic XHR readyState 4 === 'DONE: The operation is complete'
+        HEAPU16[fetch + 42 >> 1] = 404; // Mimic XHR HTTP status code 404 "Not Found"
+        stringToUTF8("Not Found", fetch + 44, 64);
+        onerror(fetch, 0, error);
+      };
+    } catch(e) {
+      onerror(fetch, 0, e);
+    }
+  }
+  function _emscripten_start_fetch(fetch, successcb, errorcb, progresscb, readystatechangecb) {
+    // Avoid shutting down the runtime since we want to wait for the async
+    // response.
+    
+  
+    var fetch_attr = fetch + 112;
+    var requestMethod = UTF8ToString(fetch_attr);
+    var onsuccess = HEAPU32[fetch_attr + 36 >> 2];
+    var onerror = HEAPU32[fetch_attr + 40 >> 2];
+    var onprogress = HEAPU32[fetch_attr + 44 >> 2];
+    var onreadystatechange = HEAPU32[fetch_attr + 48 >> 2];
+    var fetchAttributes = HEAPU32[fetch_attr + 52 >> 2];
+    var fetchAttrLoadToMemory = !!(fetchAttributes & 1);
+    var fetchAttrStreamData = !!(fetchAttributes & 2);
+    var fetchAttrPersistFile = !!(fetchAttributes & 4);
+    var fetchAttrNoDownload = !!(fetchAttributes & 32);
+    var fetchAttrAppend = !!(fetchAttributes & 8);
+    var fetchAttrReplace = !!(fetchAttributes & 16);
+    var fetchAttrSynchronous = !!(fetchAttributes & 64);
+  
+    var reportSuccess = (fetch, xhr, e) => {
+      
+      callUserCallback(() => {
+        if (onsuccess) getWasmTableEntry(onsuccess)(fetch);
+        else if (successcb) successcb(fetch);
+      }, fetchAttrSynchronous);
+    };
+  
+    var reportProgress = (fetch, xhr, e) => {
+      callUserCallback(() => {
+        if (onprogress) getWasmTableEntry(onprogress)(fetch);
+        else if (progresscb) progresscb(fetch);
+      }, fetchAttrSynchronous);
+    };
+  
+    var reportError = (fetch, xhr, e) => {
+      
+      callUserCallback(() => {
+        if (onerror) getWasmTableEntry(onerror)(fetch);
+        else if (errorcb) errorcb(fetch);
+      }, fetchAttrSynchronous);
+    };
+  
+    var reportReadyStateChange = (fetch, xhr, e) => {
+      callUserCallback(() => {
+        if (onreadystatechange) getWasmTableEntry(onreadystatechange)(fetch);
+        else if (readystatechangecb) readystatechangecb(fetch);
+      }, fetchAttrSynchronous);
+    };
+  
+    var performUncachedXhr = (fetch, xhr, e) => {
+      fetchXHR(fetch, reportSuccess, reportError, reportProgress, reportReadyStateChange);
+    };
+  
+    var cacheResultAndReportSuccess = (fetch, xhr, e) => {
+      var storeSuccess = (fetch, xhr, e) => {
+        
+        callUserCallback(() => {
+          if (onsuccess) getWasmTableEntry(onsuccess)(fetch);
+          else if (successcb) successcb(fetch);
+        }, fetchAttrSynchronous);
+      };
+      var storeError = (fetch, xhr, e) => {
+        
+        callUserCallback(() => {
+          if (onsuccess) getWasmTableEntry(onsuccess)(fetch);
+          else if (successcb) successcb(fetch);
+        }, fetchAttrSynchronous);
+      };
+      fetchCacheData(Fetch.dbInstance, fetch, xhr.response, storeSuccess, storeError);
+    };
+  
+    var performCachedXhr = (fetch, xhr, e) => {
+      fetchXHR(fetch, cacheResultAndReportSuccess, reportError, reportProgress, reportReadyStateChange);
+    };
+  
+    if (requestMethod === 'EM_IDB_STORE') {
+      // TODO(?): Here we perform a clone of the data, because storing shared typed arrays to IndexedDB does not seem to be allowed.
+      var ptr = HEAPU32[fetch_attr + 84 >> 2];
+      fetchCacheData(Fetch.dbInstance, fetch, HEAPU8.slice(ptr, ptr + HEAPU32[fetch_attr + 88 >> 2]), reportSuccess, reportError);
+    } else if (requestMethod === 'EM_IDB_DELETE') {
+      fetchDeleteCachedData(Fetch.dbInstance, fetch, reportSuccess, reportError);
+    } else if (!fetchAttrReplace) {
+      fetchLoadCachedData(Fetch.dbInstance, fetch, reportSuccess, fetchAttrNoDownload ? reportError : (fetchAttrPersistFile ? performCachedXhr : performUncachedXhr));
+    } else if (!fetchAttrNoDownload) {
+      fetchXHR(fetch, fetchAttrPersistFile ? cacheResultAndReportSuccess : reportSuccess, reportError, reportProgress, reportReadyStateChange);
+    } else {
+      return 0; // todo: free
+    }
+    return fetch;
+  }
 
   function __webgl_enable_ANGLE_instanced_arrays(ctx) {
       // Extension available in WebGL 1 from Firefox 26 and Google Chrome 30 onwards. Core feature in WebGL 2.
@@ -5612,6 +6023,123 @@ var ASM_CONSTS = {
       return GLctx.getAttribLocation(GL.programs[program], UTF8ToString(name));
     }
 
+  function readI53FromI64(ptr) {
+      return HEAPU32[ptr>>2] + HEAP32[ptr+4>>2] * 4294967296;
+    }
+  
+  function readI53FromU64(ptr) {
+      return HEAPU32[ptr>>2] + HEAPU32[ptr+4>>2] * 4294967296;
+    }
+  function writeI53ToI64(ptr, num) {
+      HEAPU32[ptr>>2] = num;
+      HEAPU32[ptr+4>>2] = (num - HEAPU32[ptr>>2])/4294967296;
+      var deserialized = (num >= 0) ? readI53FromU64(ptr) : readI53FromI64(ptr);
+      if (deserialized != num) warnOnce('writeI53ToI64() out of range: serialized JS Number ' + num + ' to Wasm heap as bytes lo=0x' + HEAPU32[ptr>>2].toString(16) + ', hi=0x' + HEAPU32[ptr+4>>2].toString(16) + ', which deserializes back to ' + deserialized + ' instead!');
+    }
+  function emscriptenWebGLGet(name_, p, type) {
+      // Guard against user passing a null pointer.
+      // Note that GLES2 spec does not say anything about how passing a null pointer should be treated.
+      // Testing on desktop core GL 3, the application crashes on glGetIntegerv to a null pointer, but
+      // better to report an error instead of doing anything random.
+      if (!p) {
+        GL.recordError(0x501 /* GL_INVALID_VALUE */);
+        return;
+      }
+      var ret = undefined;
+      switch (name_) { // Handle a few trivial GLES values
+        case 0x8DFA: // GL_SHADER_COMPILER
+          ret = 1;
+          break;
+        case 0x8DF8: // GL_SHADER_BINARY_FORMATS
+          if (type != 0 && type != 1) {
+            GL.recordError(0x500); // GL_INVALID_ENUM
+          }
+          return; // Do not write anything to the out pointer, since no binary formats are supported.
+        case 0x8DF9: // GL_NUM_SHADER_BINARY_FORMATS
+          ret = 0;
+          break;
+        case 0x86A2: // GL_NUM_COMPRESSED_TEXTURE_FORMATS
+          // WebGL doesn't have GL_NUM_COMPRESSED_TEXTURE_FORMATS (it's obsolete since GL_COMPRESSED_TEXTURE_FORMATS returns a JS array that can be queried for length),
+          // so implement it ourselves to allow C++ GLES2 code get the length.
+          var formats = GLctx.getParameter(0x86A3 /*GL_COMPRESSED_TEXTURE_FORMATS*/);
+          ret = formats ? formats.length : 0;
+          break;
+  
+      }
+  
+      if (ret === undefined) {
+        var result = GLctx.getParameter(name_);
+        switch (typeof result) {
+          case "number":
+            ret = result;
+            break;
+          case "boolean":
+            ret = result ? 1 : 0;
+            break;
+          case "string":
+            GL.recordError(0x500); // GL_INVALID_ENUM
+            return;
+          case "object":
+            if (result === null) {
+              // null is a valid result for some (e.g., which buffer is bound - perhaps nothing is bound), but otherwise
+              // can mean an invalid name_, which we need to report as an error
+              switch (name_) {
+                case 0x8894: // ARRAY_BUFFER_BINDING
+                case 0x8B8D: // CURRENT_PROGRAM
+                case 0x8895: // ELEMENT_ARRAY_BUFFER_BINDING
+                case 0x8CA6: // FRAMEBUFFER_BINDING or DRAW_FRAMEBUFFER_BINDING
+                case 0x8CA7: // RENDERBUFFER_BINDING
+                case 0x8069: // TEXTURE_BINDING_2D
+                case 0x85B5: // WebGL 2 GL_VERTEX_ARRAY_BINDING, or WebGL 1 extension OES_vertex_array_object GL_VERTEX_ARRAY_BINDING_OES
+                case 0x8514: { // TEXTURE_BINDING_CUBE_MAP
+                  ret = 0;
+                  break;
+                }
+                default: {
+                  GL.recordError(0x500); // GL_INVALID_ENUM
+                  return;
+                }
+              }
+            } else if (result instanceof Float32Array ||
+                       result instanceof Uint32Array ||
+                       result instanceof Int32Array ||
+                       result instanceof Array) {
+              for (var i = 0; i < result.length; ++i) {
+                switch (type) {
+                  case 0: HEAP32[(((p)+(i*4))>>2)] = result[i]; break;
+                  case 2: HEAPF32[(((p)+(i*4))>>2)] = result[i]; break;
+                  case 4: HEAP8[(((p)+(i))>>0)] = result[i] ? 1 : 0; break;
+                }
+              }
+              return;
+            } else {
+              try {
+                ret = result.name | 0;
+              } catch(e) {
+                GL.recordError(0x500); // GL_INVALID_ENUM
+                err('GL_INVALID_ENUM in glGet' + type + 'v: Unknown object returned from WebGL getParameter(' + name_ + ')! (error: ' + e + ')');
+                return;
+              }
+            }
+            break;
+          default:
+            GL.recordError(0x500); // GL_INVALID_ENUM
+            err('GL_INVALID_ENUM in glGet' + type + 'v: Native code calling glGet' + type + 'v(' + name_ + ') and it returns ' + result + ' of type ' + typeof(result) + '!');
+            return;
+        }
+      }
+  
+      switch (type) {
+        case 1: writeI53ToI64(p, ret); break;
+        case 0: HEAP32[((p)>>2)] = ret; break;
+        case 2:   HEAPF32[((p)>>2)] = ret; break;
+        case 4: HEAP8[((p)>>0)] = ret ? 1 : 0; break;
+      }
+    }
+  function _glGetIntegerv(name_, p) {
+      emscriptenWebGLGet(name_, p, 0);
+    }
+
   /** @suppress {checkTypes} */
   function jstoi_q(str) {
       return parseInt(str);
@@ -6130,6 +6658,7 @@ Module["requestFullscreen"] = function Module_requestFullscreen(lockPointer, res
   Module["resumeMainLoop"] = function Module_resumeMainLoop() { Browser.mainLoop.resume() };
   Module["getUserMedia"] = function Module_getUserMedia() { Browser.getUserMedia() }
   Module["createContext"] = function Module_createContext(canvas, useWebGL, setInModule, webGLContextAttributes) { return Browser.createContext(canvas, useWebGL, setInModule, webGLContextAttributes) };
+Fetch.staticInit();;
 var GLctx;;
 
   var FSNode = /** @constructor */ function(parent, name, mode, rdev) {
@@ -6334,13 +6863,16 @@ function checkIncomingModuleAPI() {
   ignoredModuleProp('fetchSettings');
 }
 var asmLibraryArg = {
+  "_emscripten_fetch_free": __emscripten_fetch_free,
   "abort": _abort,
   "emscripten_get_element_css_size": _emscripten_get_element_css_size,
   "emscripten_get_screen_size": _emscripten_get_screen_size,
+  "emscripten_is_main_browser_thread": _emscripten_is_main_browser_thread,
   "emscripten_memcpy_big": _emscripten_memcpy_big,
   "emscripten_resize_heap": _emscripten_resize_heap,
   "emscripten_set_main_loop": _emscripten_set_main_loop,
   "emscripten_set_mousedown_callback_on_thread": _emscripten_set_mousedown_callback_on_thread,
+  "emscripten_start_fetch": _emscripten_start_fetch,
   "emscripten_webgl_create_context": _emscripten_webgl_create_context,
   "emscripten_webgl_init_context_attributes": _emscripten_webgl_init_context_attributes,
   "emscripten_webgl_make_context_current": _emscripten_webgl_make_context_current,
@@ -6362,6 +6894,7 @@ var asmLibraryArg = {
   "glEnableVertexAttribArray": _glEnableVertexAttribArray,
   "glGenBuffers": _glGenBuffers,
   "glGetAttribLocation": _glGetAttribLocation,
+  "glGetIntegerv": _glGetIntegerv,
   "glGetUniformLocation": _glGetUniformLocation,
   "glLinkProgram": _glLinkProgram,
   "glShaderSource": _glShaderSource,

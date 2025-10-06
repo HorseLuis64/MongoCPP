@@ -49,23 +49,33 @@ private:
 }
 
 void serveStatic(const Rest::Request& req, Http::ResponseWriter resp) {
-    auto path = req.resource();  
-    if (path == "/" || path.empty()) {
-        path = "/index.html";
+    auto path = req.param(":path").as<std::string>();
+    if (path.empty()) {
+        path = "main.html"; // archivo principal
     }
 
-    std::string fullPath = "static" + path;
+    std::string fullPath = "../weboo/" + path; // relativo desde build/
 
     std::ifstream file(fullPath, std::ios::binary);
     if (!file.is_open()) {
-        resp.send(Http::Code::Not_Found, "Archivo no encontrado");
+        resp.send(Http::Code::Not_Found, "Archivo no encontrado: " + fullPath);
         return;
     }
 
+    std::string mime = "text/plain";
+    if (path.size() >= 5 && path.substr(path.size() - 5) == ".html") mime = "text/html";
+    else if (path.size() >= 3 && path.substr(path.size() - 3) == ".js") mime = "application/javascript";
+    else if (path.size() >= 5 && path.substr(path.size() - 5) == ".wasm") mime = "application/wasm";
+    else if (path.size() >= 5 && path.substr(path.size() - 5) == ".json") mime = "application/json";
+
     std::ostringstream ss;
     ss << file.rdbuf();
+
+    resp.headers().add<Http::Header::ContentType>(mime);
     resp.send(Http::Code::Ok, ss.str());
 }
+
+
 
 
     // GET /data

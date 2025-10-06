@@ -67,7 +67,7 @@ struct Boton {
     float x, y, w, h;
     float nx, ny, nw, nh;
 } button = {300, 600, 600, 800,
-          -0.3f, -0.1f, 0.6f, 0.2f};
+          -0.3f, -0.1f, 0.3f, 0.1f};
 
 int canvasWidth = 800;
 int canvasHeight = 600;
@@ -80,20 +80,32 @@ struct vec2
     vec2(int x, int y) : x(x), y(y){}
 };
 
-vec2 ndcToPx(float x, float y)
+double viewX;
+double viewY;
+double viewW;
+double viewH;
+
+vec2 ndcToPx(float x, float y, int viewWidth, int viewHeight)
 {
-    vec2 stride = vec2(bWidth /2, bHeight / 2);
+    vec2 stride = vec2(viewWidth /2, viewHeight / 2);
     vec2 r(1, 1);
     
     r.x = (stride.x * x) + stride.x;
 
-    r.y = (stride.y * y) + stride.y;
+    r.y = (stride.y * y) - stride.y * -1;
     
     return r;
 }
 
-bool dentroDelBoton(float mouseX, float mouseY) {
-    return mouseX >= button.x && mouseX <= button.x + button.w;
+bool dentroDelBoton(float &mouseX, float &mouseY) {
+    
+    
+    if(mouseX <= button.w)
+    {
+        std::cout<<"mouX: " << mouseX << " button.w: " << button.w<<std::endl;
+    }
+    
+    return mouseX >= button.x && mouseX <= button.w && mouseY >= button.y && mouseY <= button.h;
            
 }
 
@@ -158,14 +170,11 @@ EM_BOOL onClick(int eventType, const EmscriptenMouseEvent* e, void* userData) {
 
     if (dentroDelBoton(mouseX, mouseY)) {
         std::cout << "✅ Click dentro del botón!" << std::endl;
-        // Llama aquí tu función enviarDatos();
+        enviarDatos();
     } else {
         std::cout << "❌ Click fuera del botón." << std::endl;
     }
-    vec2 a = ndcToPx(-0.3f, -0.1f);
-    vec2 b = ndcToPx(0.6f, 0.2f);
 
-      std::cout<< a.x <<" " << b.y << " s " << b.x << " " << b.y<<std::endl; 
 
     return EM_TRUE;
 }
@@ -175,23 +184,19 @@ int oh = 0;
 void loop() {
     draw();
     buttonPressed = false; // vuelve al color original tras dibujar
-    if(oh < 1)
-    {
-      vec2 l = ndcToPx(button.nx, button.ny);
-      vec2 h = ndcToPx(button.nw, button.nh);
+    
+      vec2 l = ndcToPx(button.nx, button.ny, viewW, viewH);
+      vec2 h = ndcToPx(button.nw, button.nh, viewW, viewH);
       button.x = l.x;
       button.y = l.y;
       button.w = h.x;
       button.h = h.y;
-          
-      oh++;
-    }
+      
+      
+    
 }
 
-double viewX;
-double viewY;
-double viewW;
-double viewH;
+
 
 int main() {
     // Crear contexto WebGL
@@ -214,9 +219,9 @@ int main() {
     // Crear VBO (rectángulo)
     float vertices[] = {
         button.nx, button.ny,
-        button.nx + button.nw, button.ny,
-        button.nx, button.ny + button.nh,
-        button.nx + button.nw, button.ny + button.nh
+        button.nw, button.ny,
+        button.nx, button.nh,
+        button.nw, button.nh
     };
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -232,7 +237,19 @@ int main() {
 
     std::cout << "🎨 Frontend C++ iniciado (WebGL + Fetch)\n";
 
-      
+    
+    GLint viewport[4];
+glGetIntegerv(GL_VIEWPORT, viewport);
+
+viewX = viewport[0]; // posición X del viewport (normalmente 0)
+viewY = viewport[1]; // posición Y del viewport (normalmente 0)
+viewW = viewport[2]; // ancho del viewport
+viewH = viewport[3]; // alto del viewport
+
+std::cout << "Viewport -> x:" << viewX << " y:" << viewY
+          << " w:" << viewW << " h:" << viewH << std::endl;
+
+
 
     printViewportSize();
     emscripten_set_main_loop(loop, 0, 1);

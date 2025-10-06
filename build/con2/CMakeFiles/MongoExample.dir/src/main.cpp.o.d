@@ -21,20 +21,24 @@ con2/CMakeFiles/MongoExample.dir/src/main.cpp.o: \
  /usr/include/c++/13/ext/numeric_traits.h \
  /usr/include/c++/13/bits/stl_pair.h /usr/include/c++/13/type_traits \
  /usr/include/c++/13/bits/move.h /usr/include/c++/13/bits/utility.h \
+ /usr/include/c++/13/compare /usr/include/c++/13/concepts \
  /usr/include/c++/13/bits/stl_iterator_base_types.h \
+ /usr/include/c++/13/bits/iterator_concepts.h \
+ /usr/include/c++/13/bits/ptr_traits.h \
+ /usr/include/c++/13/bits/ranges_cmp.h \
  /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
  /usr/include/c++/13/bits/concept_check.h \
  /usr/include/c++/13/debug/assertions.h \
- /usr/include/c++/13/bits/stl_iterator.h \
- /usr/include/c++/13/bits/ptr_traits.h /usr/include/c++/13/debug/debug.h \
+ /usr/include/c++/13/bits/stl_iterator.h /usr/include/c++/13/new \
+ /usr/include/c++/13/bits/exception.h \
+ /usr/include/c++/13/bits/stl_construct.h \
+ /usr/include/c++/13/debug/debug.h \
  /usr/include/c++/13/bits/predefined_ops.h /usr/include/c++/13/bit \
  /usr/include/c++/13/bits/stl_algo.h \
  /usr/include/c++/13/bits/algorithmfwd.h \
  /usr/include/c++/13/initializer_list /usr/include/c++/13/bits/stl_heap.h \
  /usr/include/c++/13/bits/uniform_int_dist.h \
- /usr/include/c++/13/bits/stl_tempbuf.h /usr/include/c++/13/new \
- /usr/include/c++/13/bits/exception.h \
- /usr/include/c++/13/bits/stl_construct.h /usr/include/c++/13/cstdlib \
+ /usr/include/c++/13/bits/stl_tempbuf.h /usr/include/c++/13/cstdlib \
  /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
@@ -71,10 +75,15 @@ con2/CMakeFiles/MongoExample.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /usr/include/c++/13/bits/std_abs.h \
+ /usr/include/c++/13/bits/ranges_algo.h \
+ /usr/include/c++/13/bits/ranges_algobase.h \
+ /usr/include/c++/13/bits/ranges_base.h \
+ /usr/include/c++/13/bits/max_size_type.h /usr/include/c++/13/numbers \
+ /usr/include/c++/13/bits/invoke.h /usr/include/c++/13/bits/ranges_util.h \
  /usr/include/c++/13/pstl/glue_algorithm_defs.h \
  /usr/include/c++/13/pstl/execution_defs.h /usr/include/c++/13/array \
- /usr/include/c++/13/compare /usr/include/c++/13/bits/range_access.h \
- /usr/include/c++/13/chrono /usr/include/c++/13/bits/requires_hosted.h \
+ /usr/include/c++/13/bits/range_access.h /usr/include/c++/13/chrono \
+ /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/c++/13/bits/chrono.h /usr/include/c++/13/ratio \
  /usr/include/c++/13/cstdint \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
@@ -86,25 +95,10 @@ con2/CMakeFiles/MongoExample.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/timex.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
- /usr/include/c++/13/bits/parse_numbers.h /usr/include/c++/13/memory \
- /usr/include/c++/13/bits/memoryfwd.h \
- /usr/include/c++/13/bits/allocator.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
- /usr/include/c++/13/bits/new_allocator.h \
- /usr/include/c++/13/bits/stl_uninitialized.h \
- /usr/include/c++/13/ext/alloc_traits.h \
- /usr/include/c++/13/bits/alloc_traits.h \
- /usr/include/c++/13/bits/stl_raw_storage_iter.h \
- /usr/include/c++/13/bits/align.h \
- /usr/include/c++/13/bits/uses_allocator.h \
- /usr/include/c++/13/bits/unique_ptr.h /usr/include/c++/13/tuple \
- /usr/include/c++/13/bits/invoke.h \
- /usr/include/c++/13/bits/stl_function.h \
- /usr/include/c++/13/backward/binders.h \
- /usr/include/c++/13/bits/functional_hash.h \
- /usr/include/c++/13/bits/hash_bytes.h \
- /usr/include/c++/13/bits/shared_ptr.h /usr/include/c++/13/iosfwd \
- /usr/include/c++/13/bits/stringfwd.h /usr/include/c++/13/bits/postypes.h \
+ /usr/include/c++/13/bits/parse_numbers.h /usr/include/c++/13/sstream \
+ /usr/include/c++/13/istream /usr/include/c++/13/ios \
+ /usr/include/c++/13/iosfwd /usr/include/c++/13/bits/stringfwd.h \
+ /usr/include/c++/13/bits/memoryfwd.h /usr/include/c++/13/bits/postypes.h \
  /usr/include/c++/13/cwchar /usr/include/wchar.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
@@ -112,10 +106,16 @@ con2/CMakeFiles/MongoExample.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
- /usr/include/c++/13/bits/shared_ptr_base.h /usr/include/c++/13/typeinfo \
- /usr/include/c++/13/bits/allocated_ptr.h \
- /usr/include/c++/13/bits/refwrap.h \
- /usr/include/c++/13/ext/aligned_buffer.h \
+ /usr/include/c++/13/exception /usr/include/c++/13/bits/exception_ptr.h \
+ /usr/include/c++/13/bits/cxxabi_init_exception.h \
+ /usr/include/c++/13/typeinfo /usr/include/c++/13/bits/hash_bytes.h \
+ /usr/include/c++/13/bits/nested_exception.h \
+ /usr/include/c++/13/bits/char_traits.h \
+ /usr/include/c++/13/bits/localefwd.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h \
+ /usr/include/c++/13/clocale /usr/include/locale.h \
+ /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/13/cctype \
+ /usr/include/ctype.h /usr/include/c++/13/bits/ios_base.h \
  /usr/include/c++/13/ext/atomicity.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
@@ -128,26 +128,19 @@ con2/CMakeFiles/MongoExample.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h \
  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
- /usr/include/c++/13/ext/concurrence.h /usr/include/c++/13/exception \
- /usr/include/c++/13/bits/exception_ptr.h \
- /usr/include/c++/13/bits/cxxabi_init_exception.h \
- /usr/include/c++/13/bits/nested_exception.h \
- /usr/include/c++/13/bits/shared_ptr_atomic.h \
- /usr/include/c++/13/bits/atomic_base.h \
- /usr/include/c++/13/bits/atomic_lockfree_defines.h \
- /usr/include/c++/13/backward/auto_ptr.h \
- /usr/include/c++/13/pstl/glue_memory_defs.h /usr/include/c++/13/sstream \
- /usr/include/c++/13/istream /usr/include/c++/13/ios \
- /usr/include/c++/13/bits/char_traits.h \
- /usr/include/c++/13/bits/localefwd.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h \
- /usr/include/c++/13/clocale /usr/include/locale.h \
- /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/13/cctype \
- /usr/include/ctype.h /usr/include/c++/13/bits/ios_base.h \
  /usr/include/c++/13/bits/locale_classes.h /usr/include/c++/13/string \
+ /usr/include/c++/13/bits/allocator.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
+ /usr/include/c++/13/bits/new_allocator.h \
  /usr/include/c++/13/bits/ostream_insert.h \
  /usr/include/c++/13/bits/cxxabi_forced.h \
- /usr/include/c++/13/bits/basic_string.h /usr/include/c++/13/string_view \
+ /usr/include/c++/13/bits/stl_function.h \
+ /usr/include/c++/13/backward/binders.h \
+ /usr/include/c++/13/bits/refwrap.h \
+ /usr/include/c++/13/bits/basic_string.h \
+ /usr/include/c++/13/ext/alloc_traits.h \
+ /usr/include/c++/13/bits/alloc_traits.h /usr/include/c++/13/string_view \
+ /usr/include/c++/13/bits/functional_hash.h \
  /usr/include/c++/13/bits/string_view.tcc \
  /usr/include/c++/13/ext/string_conversions.h /usr/include/c++/13/cstdio \
  /usr/include/stdio.h /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
@@ -163,7 +156,8 @@ con2/CMakeFiles/MongoExample.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/charconv.h \
  /usr/include/c++/13/bits/basic_string.tcc \
  /usr/include/c++/13/bits/memory_resource.h /usr/include/c++/13/cstddef \
- /usr/include/c++/13/bits/uses_allocator_args.h \
+ /usr/include/c++/13/bits/uses_allocator.h \
+ /usr/include/c++/13/bits/uses_allocator_args.h /usr/include/c++/13/tuple \
  /usr/include/c++/13/bits/locale_classes.tcc \
  /usr/include/c++/13/system_error \
  /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
@@ -180,12 +174,34 @@ con2/CMakeFiles/MongoExample.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/ostream.tcc \
  /usr/include/c++/13/bits/istream.tcc \
  /usr/include/c++/13/bits/sstream.tcc /usr/include/c++/13/vector \
+ /usr/include/c++/13/bits/stl_uninitialized.h \
  /usr/include/c++/13/bits/stl_vector.h \
  /usr/include/c++/13/bits/stl_bvector.h \
  /usr/include/c++/13/bits/vector.tcc \
- /usr/local/include/pistache/eventmeth.h \
- /usr/local/include/pistache/winornix.h \
- /usr/include/x86_64-linux-gnu/sys/param.h \
+ /usr/include/c++/13/bits/shared_ptr.h \
+ /usr/include/c++/13/bits/shared_ptr_base.h \
+ /usr/include/c++/13/bits/allocated_ptr.h \
+ /usr/include/c++/13/bits/unique_ptr.h \
+ /usr/include/c++/13/ext/aligned_buffer.h \
+ /usr/include/c++/13/ext/concurrence.h /usr/include/c++/13/bits/align.h \
+ /usr/include/c++/13/bits/chrono_io.h /usr/include/c++/13/iomanip \
+ /usr/include/c++/13/locale \
+ /usr/include/c++/13/bits/locale_facets_nonio.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
+ /usr/include/libintl.h /usr/include/c++/13/bits/codecvt.h \
+ /usr/include/c++/13/bits/locale_facets_nonio.tcc \
+ /usr/include/c++/13/bits/locale_conv.h \
+ /usr/include/c++/13/bits/quoted_string.h /usr/include/c++/13/format \
+ /usr/include/c++/13/charconv /usr/include/c++/13/optional \
+ /usr/include/c++/13/bits/enable_special_members.h \
+ /usr/include/c++/13/span /usr/include/c++/13/variant \
+ /usr/include/c++/13/memory \
+ /usr/include/c++/13/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/13/bits/shared_ptr_atomic.h \
+ /usr/include/c++/13/bits/atomic_base.h \
+ /usr/include/c++/13/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/13/bits/atomic_wait.h /usr/include/c++/13/climits \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
  /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
@@ -193,7 +209,25 @@ con2/CMakeFiles/MongoExample.dir/src/main.cpp.o: \
  /usr/include/linux/limits.h \
  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
- /usr/include/x86_64-linux-gnu/bits/uio_lim.h /usr/include/signal.h \
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h /usr/include/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /usr/include/x86_64-linux-gnu/bits/environments.h \
+ /usr/include/x86_64-linux-gnu/bits/confname.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+ /usr/include/linux/close_range.h /usr/include/syscall.h \
+ /usr/include/x86_64-linux-gnu/sys/syscall.h \
+ /usr/include/x86_64-linux-gnu/asm/unistd.h \
+ /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
+ /usr/include/x86_64-linux-gnu/bits/syscall.h \
+ /usr/include/c++/13/bits/std_mutex.h \
+ /usr/include/c++/13/backward/auto_ptr.h \
+ /usr/include/c++/13/bits/ranges_uninitialized.h \
+ /usr/include/c++/13/pstl/glue_memory_defs.h \
+ /usr/local/include/pistache/eventmeth.h \
+ /usr/local/include/pistache/winornix.h \
+ /usr/include/x86_64-linux-gnu/sys/param.h /usr/include/signal.h \
  /usr/include/x86_64-linux-gnu/bits/signum-generic.h \
  /usr/include/x86_64-linux-gnu/bits/signum-arch.h \
  /usr/include/x86_64-linux-gnu/bits/types/sig_atomic_t.h \
@@ -210,14 +244,7 @@ con2/CMakeFiles/MongoExample.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/stack_t.h \
  /usr/include/x86_64-linux-gnu/sys/ucontext.h \
  /usr/include/x86_64-linux-gnu/bits/sigstack.h \
- /usr/include/x86_64-linux-gnu/bits/sigstksz.h /usr/include/unistd.h \
- /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
- /usr/include/x86_64-linux-gnu/bits/environments.h \
- /usr/include/x86_64-linux-gnu/bits/confname.h \
- /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
- /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
- /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
- /usr/include/linux/close_range.h \
+ /usr/include/x86_64-linux-gnu/bits/sigstksz.h \
  /usr/include/x86_64-linux-gnu/bits/ss_flags.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h \
  /usr/include/x86_64-linux-gnu/bits/sigthread.h \
@@ -238,17 +265,21 @@ con2/CMakeFiles/MongoExample.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/unordered_map.h \
  /usr/include/c++/13/bits/hashtable.h \
  /usr/include/c++/13/bits/hashtable_policy.h \
- /usr/include/c++/13/bits/enable_special_members.h \
  /usr/include/c++/13/bits/node_handle.h \
  /usr/include/c++/13/bits/erase_if.h /usr/include/c++/13/atomic \
  /usr/include/c++/13/condition_variable \
- /usr/include/c++/13/bits/std_mutex.h \
- /usr/include/c++/13/bits/unique_lock.h /usr/include/c++/13/mutex \
+ /usr/include/c++/13/bits/unique_lock.h /usr/include/c++/13/stop_token \
+ /usr/include/c++/13/bits/std_thread.h /usr/include/c++/13/semaphore \
+ /usr/include/c++/13/bits/semaphore_base.h \
+ /usr/include/c++/13/bits/atomic_timed_wait.h \
+ /usr/include/c++/13/bits/this_thread_sleep.h \
+ /usr/include/x86_64-linux-gnu/sys/time.h /usr/include/semaphore.h \
+ /usr/include/x86_64-linux-gnu/bits/semaphore.h /usr/include/c++/13/mutex \
  /usr/local/include/pistache/cookie.h /usr/include/c++/13/list \
  /usr/include/c++/13/bits/stl_list.h /usr/include/c++/13/bits/list.tcc \
  /usr/include/c++/13/map /usr/include/c++/13/bits/stl_tree.h \
  /usr/include/c++/13/bits/stl_map.h \
- /usr/include/c++/13/bits/stl_multimap.h /usr/include/c++/13/optional \
+ /usr/include/c++/13/bits/stl_multimap.h \
  /usr/include/c++/13/unordered_set \
  /usr/include/c++/13/bits/unordered_set.h \
  /usr/local/include/pistache/http_defs.h \
@@ -308,8 +339,7 @@ con2/CMakeFiles/MongoExample.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/syslog-path.h \
  /usr/local/include/pistache/pist_syslog.h \
  /usr/local/include/pistache/config.h /usr/local/include/pistache/flags.h \
- /usr/include/c++/13/climits /usr/include/c++/13/bitset \
- /usr/local/include/pistache/tcp.h \
+ /usr/include/c++/13/bitset /usr/local/include/pistache/tcp.h \
  /usr/local/include/pistache/prototype.h \
  /usr/local/include/pistache/transport.h \
  /usr/include/x86_64-linux-gnu/sys/resource.h \
@@ -319,21 +349,13 @@ con2/CMakeFiles/MongoExample.dir/src/main.cpp.o: \
  /usr/local/include/pistache/pist_timelog.h \
  /usr/local/include/pistache/ps_strl.h \
  /usr/local/include/pistache/reactor.h /usr/include/c++/13/thread \
- /usr/include/c++/13/bits/std_thread.h \
- /usr/include/c++/13/bits/this_thread_sleep.h /usr/include/c++/13/deque \
- /usr/include/c++/13/bits/stl_deque.h /usr/include/c++/13/bits/deque.tcc \
+ /usr/include/c++/13/deque /usr/include/c++/13/bits/stl_deque.h \
+ /usr/include/c++/13/bits/deque.tcc \
  /usr/local/include/pistache/listener.h /usr/local/include/pistache/log.h \
  /usr/local/include/pistache/string_logger.h \
  /usr/local/include/pistache/ssl_wrappers.h \
  /usr/local/include/pistache/router.h /usr/include/c++/13/regex \
- /usr/include/c++/13/locale \
- /usr/include/c++/13/bits/locale_facets_nonio.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
- /usr/include/libintl.h /usr/include/c++/13/bits/codecvt.h \
- /usr/include/c++/13/bits/locale_facets_nonio.tcc \
- /usr/include/c++/13/bits/locale_conv.h /usr/include/c++/13/stack \
- /usr/include/c++/13/bits/stl_stack.h \
+ /usr/include/c++/13/stack /usr/include/c++/13/bits/stl_stack.h \
  /usr/include/c++/13/bits/regex_constants.h \
  /usr/include/c++/13/bits/regex_error.h \
  /usr/include/c++/13/bits/regex_automaton.h \
@@ -359,10 +381,10 @@ con2/CMakeFiles/MongoExample.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/mask_array.h \
  /usr/include/c++/13/bits/indirect_array.h /usr/include/c++/13/version \
  /usr/include/c++/13/filesystem /usr/include/c++/13/bits/fs_fwd.h \
- /usr/include/c++/13/bits/fs_path.h /usr/include/c++/13/iomanip \
- /usr/include/c++/13/bits/quoted_string.h /usr/include/c++/13/codecvt \
+ /usr/include/c++/13/bits/fs_path.h /usr/include/c++/13/codecvt \
  /usr/include/c++/13/bits/fs_dir.h /usr/include/c++/13/bits/fs_ops.h \
- /usr/include/c++/13/numeric /usr/include/c++/13/bits/stl_numeric.h \
+ /usr/include/c++/13/ranges /usr/include/c++/13/numeric \
+ /usr/include/c++/13/bits/stl_numeric.h \
  /usr/include/c++/13/pstl/glue_numeric_defs.h /usr/include/c++/13/any \
  /usr/include/c++/13/fstream \
  /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \

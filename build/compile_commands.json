@@ -1,13 +1,13 @@
 [
 {
   "directory": "/home/horse_pn64/HorseDev/CPP/TareaDB/build/con2",
-  "command": "/usr/bin/c++  -I/home/horse_pn64/HorseDev/CPP/TareaDB/con2/include -I/usr/local/include/mongocxx/v_noabi -I/usr/local/include/bsoncxx/v_noabi -std=gnu++17 -o CMakeFiles/MongoExample.dir/src/db_handler.cpp.o -c /home/horse_pn64/HorseDev/CPP/TareaDB/con2/src/db_handler.cpp",
+  "command": "/usr/bin/c++  -I/home/horse_pn64/HorseDev/CPP/TareaDB/con2/include -I/usr/local/include/mongocxx/v_noabi -I/usr/local/include/bsoncxx/v_noabi -std=gnu++20 -o CMakeFiles/MongoExample.dir/src/db_handler.cpp.o -c /home/horse_pn64/HorseDev/CPP/TareaDB/con2/src/db_handler.cpp",
   "file": "/home/horse_pn64/HorseDev/CPP/TareaDB/con2/src/db_handler.cpp",
   "output": "con2/CMakeFiles/MongoExample.dir/src/db_handler.cpp.o"
 },
 {
   "directory": "/home/horse_pn64/HorseDev/CPP/TareaDB/build/con2",
-  "command": "/usr/bin/c++  -I/home/horse_pn64/HorseDev/CPP/TareaDB/con2/include -I/usr/local/include/mongocxx/v_noabi -I/usr/local/include/bsoncxx/v_noabi -std=gnu++17 -o CMakeFiles/MongoExample.dir/src/main.cpp.o -c /home/horse_pn64/HorseDev/CPP/TareaDB/con2/src/main.cpp",
+  "command": "/usr/bin/c++  -I/home/horse_pn64/HorseDev/CPP/TareaDB/con2/include -I/usr/local/include/mongocxx/v_noabi -I/usr/local/include/bsoncxx/v_noabi -std=gnu++20 -o CMakeFiles/MongoExample.dir/src/main.cpp.o -c /home/horse_pn64/HorseDev/CPP/TareaDB/con2/src/main.cpp",
   "file": "/home/horse_pn64/HorseDev/CPP/TareaDB/con2/src/main.cpp",
   "output": "con2/CMakeFiles/MongoExample.dir/src/main.cpp.o"
 }

@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/horse_pn64/HorseDev/CPP/TareaDB/con2/include -I/usr/local/include/mongocxx/v_noabi -I/usr/local/include/bsoncxx/v_noabi
 
-CXX_FLAGS = -std=gnu++17
+CXX_FLAGS = -std=gnu++20
 
