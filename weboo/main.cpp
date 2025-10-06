@@ -7,17 +7,29 @@
 
 
 void onSuccess(emscripten_fetch_t *fetch) {
-    std::cout << "Servidor respondió: " << std::string(fetch->data, fetch->numBytes) << std::endl;
+    std::cout << "✅ Servidor respondió (" << fetch->status << "): " 
+              << std::string(fetch->data, fetch->numBytes) << std::endl;
     emscripten_fetch_close(fetch);
 }
 
 void onError(emscripten_fetch_t *fetch) {
-    std::cout << "Error al enviar datos." << std::endl;
+    std::cout << "❌ Error HTTP (" << fetch->status << "): " 
+              << (fetch->statusText ? fetch->statusText : "sin mensaje") << std::endl;
     emscripten_fetch_close(fetch);
 }
 
 void enviarDatos() {
-    std::string jsonData = R"({"nombre":"Jorge","edad":21})";
+    // Construir manualmente un JSON válido
+    std::string nombre = "Jorge";
+    int edad = 21;
+    
+    std::string jsonData = "{";
+    jsonData += "\"nombre\":\"" + nombre + "\",";
+    jsonData += "\"edad\":" + std::to_string(edad);
+    jsonData += "}";
+    
+    std::cout << "📤 Sending JSON: " << jsonData << std::endl;
+    std::cout << "JSON length: " << jsonData.length() << std::endl;
 
     emscripten_fetch_attr_t attr;
     emscripten_fetch_attr_init(&attr);
@@ -25,15 +37,17 @@ void enviarDatos() {
     attr.attributes = EMSCRIPTEN_FETCH_LOAD_TO_MEMORY;
     attr.onsuccess = onSuccess;
     attr.onerror = onError;
+    
     attr.requestData = jsonData.c_str();
-    attr.requestDataSize = jsonData.size();
+    attr.requestDataSize = jsonData.length();
+    
     const char* headers[] = {
         "Content-Type", "application/json",
         nullptr
     };
     attr.requestHeaders = headers;
 
-    emscripten_fetch(&attr, "http://localhost:9080/insert");
+    emscripten_fetch(&attr, "http://localhost:9080/data");
 }
 
 int bWidth, bHeight;
@@ -234,9 +248,6 @@ int main() {
     emscripten_get_element_css_size("#canvas", &viewW, &viewW);
     std::cout << "Ventana (CSS) -> ancho: " << ws << ", alto: " << hs << std::endl;
 
-
-    std::cout << "🎨 Frontend C++ iniciado (WebGL + Fetch)\n";
-
     
     GLint viewport[4];
 glGetIntegerv(GL_VIEWPORT, viewport);
@@ -252,6 +263,20 @@ std::cout << "Viewport -> x:" << viewX << " y:" << viewY
 
 
     printViewportSize();
+
+    std::cout << "🎨 Frontend C++ iniciado (WebGL + Fetch)\n";
+    std::cout << "📍 Endpoint API: http://localhost:9080/data\n";
+
+    // Probar una request GET al iniciar
+    emscripten_fetch_attr_t testAttr;
+    emscripten_fetch_attr_init(&testAttr);
+    strcpy(testAttr.requestMethod, "GET");
+    testAttr.attributes = EMSCRIPTEN_FETCH_LOAD_TO_MEMORY;
+    testAttr.onsuccess = onSuccess;
+    testAttr.onerror = onError;
+    
+    emscripten_fetch(&testAttr, "http://localhost:9080/data");
+    
     emscripten_set_main_loop(loop, 0, 1);
     
 
