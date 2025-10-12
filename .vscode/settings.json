@@ -1,5 +1,13 @@
 {
-  "files.exclude": {
-    "**/frontend": true
-  }
+//  "files.exclude": {
+//    "**/frontend": true
+//},
+"cmake.sourceDirectory": "/home/horse_pn64/HorseDev/qt/Steam2/con2",
+
+    "files.associations": {
+        "string": "cpp",
+        "string_view": "cpp"
+    },
+    
+    "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json"
 }

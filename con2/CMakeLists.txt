@@ -6,12 +6,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Buscar todos los headers y fuentes
-file(GLOB_RECURSE HEADERS "include/*.h")
+file(GLOB_RECURSE HEADERS "include/*.h" "../../*.h")
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 # Incluir headers de MongoDB y Pistache
 include_directories(
     include
+    ${CMAKE_SOURCE_DIR}
     /usr/local/include/mongocxx/v_noabi
     /usr/local/include/bsoncxx/v_noabi
     /usr/local/include    # Pistache headers

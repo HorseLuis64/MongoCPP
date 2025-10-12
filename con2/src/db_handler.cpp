@@ -114,4 +114,40 @@ namespace hdb
       coll.delete_many(filter.view());
     }
 
+
+    using field = User::fields;
+    bool MongoHandler::InsertRegister(const std::unordered_map<User::fields, std::string> &reg)
+    {
+      bsoncxx::builder::stream::document doc;
+      doc 
+      << User::name       << reg.at(field::_name)
+      << User::lastName   << reg.at(field::_lastName)
+      << User::age        << reg.at(field::_age)
+      << User::birthDate  << reg.at(field::_birthDate)
+      << User::cellphone  << reg.at(field::_cellphone)
+      << User::email      << reg.at(field::_email)
+      << User::password   << reg.at(field::_password);
+
+      users.insert_one(doc.view());
+      std::cout<<"yey insertado registro";
+      return true;
+    }
+
+    bool MongoHandler::InsertRegister(const user &reg)
+    {
+      bsoncxx::builder::stream::document doc;
+      doc 
+      << User::name       << reg.name
+      << User::lastName   << reg.lastName
+      << User::age        << reg.age
+      << User::birthDate  << reg.birthDate
+      << User::cellphone  << reg.cellphone
+      << User::email      << reg.email
+      << User::password   << reg.password;
+
+      users.insert_one(doc.view());
+      std::cout<<"ingresado por objeto yupi\n";
+
+    }
+
 }

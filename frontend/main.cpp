@@ -4,7 +4,10 @@
 #include <emscripten/html5.h>
 #include <emscripten/fetch.h>
 #include <iostream>
+#include "json.hpp"
+#include "../datafields.h"
 
+using json = nlohmann::json;
 // --- Callbacks del fetch ---
 void onSuccess(emscripten_fetch_t *fetch) {
     std::cout << "✅ Servidor respondió: "
@@ -16,6 +19,26 @@ void onError(emscripten_fetch_t *fetch) {
     std::cout << "❌ Error: " << fetch->status << std::endl;
     emscripten_fetch_close(fetch);
 }
+
+
+std::string userToJson(user &reg)
+{
+    json j = {
+        {User::name, reg.name},
+        {User::lastName, reg.lastName},							
+        {User::birthDate, reg.birthDate},
+        {User::age, reg.age},
+        {User::cellphone, reg.cellphone},
+        {User::email, reg.email},
+        {User::password, reg.password},
+        {User::nroDoc, reg.nroDoc},
+        {User::tipoDoc, reg.tipoDoc},
+        {User::rol, reg.rol}
+    };
+    
+    return j.dump();
+}
+
 
 // --- Función para enviar datos ---
 void enviarDatos() {

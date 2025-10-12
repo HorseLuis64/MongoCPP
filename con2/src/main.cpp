@@ -7,6 +7,7 @@
 #include <fstream>
 #include "db_handler.h"
 
+
 using json = nlohmann::json;
 using namespace Pistache;
 
@@ -226,18 +227,33 @@ void insertData(const Rest::Request& req, Http::ResponseWriter resp) {
       setCorsHeaders(resp);
       std::string file = req.body();
       json data = json::parse(file);
-
-        std::string name =      data[User::name];
-        std::string lastName =      data[User::lastName];
-        std::string birthDate =         data[User::birthDate];
-        std::string age =       data[User::age];
-        std::string cellphone =         data[User::cellphone];
-        std::string email =         data[User::email];
-        std::string password =      data[User::password];
-        std::string nroDoc =        data[User::nroDoc];
-        std::string tipoDoc =       data[User::tipoDoc];
-        std::string rol =           data[User::rol];
-      //handler->
+        /*std::unordered_map<User::fields, std::string> fields;
+        fields[User::fields::_name] =      data[User::name];
+        fields[User::fields::_lastName] =      data[User::lastName];
+        fields[User::fields::_birthDate] =         data[User::birthDate];
+        fields[User::fields::_age] =       data[User::age];
+        fields[User::fields::_cellphone] =         data[User::cellphone];
+        fields[User::fields::_email] =         data[User::email];
+        fields[User::fields::_password] =      data[User::password];
+        fields[User::fields::_nroDoc] =        data[User::nroDoc];
+        fields[User::fields::_tipoDoc] =       data[User::tipoDoc];
+        fields[User::fields::_rol] =           data[User::rol];
+        */
+       user fields
+       (
+            data[User::name],
+            data[User::lastName],
+            data[User::birthDate],
+            data[User::age],
+            data[User::cellphone],
+            data[User::email],
+            data[User::password],
+            data[User::nroDoc],
+            data[User::tipoDoc],
+            data[User::rol]
+       );
+        
+      handler->InsertRegister(fields);
 
     }
     void postLogin(const Rest::Request& req, Http::ResponseWriter resp)

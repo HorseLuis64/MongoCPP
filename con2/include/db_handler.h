@@ -6,6 +6,7 @@
 #include <bsoncxx/builder/stream/document.hpp>
 #include<bsoncxx/json.hpp>
 #include <unordered_map>
+#include "../../datafields.h"
 
 namespace hdb {
   inline const std::string default_uri = "mongodb://localhost:27017";
@@ -44,7 +45,8 @@ namespace hdb {
 
 
       //TODO:: REAL DOCUMENTS METHODS
-      bool InsertRegister(const std::string )
+      bool InsertRegister(const std::unordered_map<User::fields, std::string> &reg);
+      bool InsertRegister(const user &reg);
       bool VerifyLogin(const std::string email, const std::string password);
 
   };  
