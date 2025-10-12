@@ -3,19 +3,7 @@
 #include<unordered_map>
 namespace User
 {
-    enum fields
-    {
-      _name,
-      _lastName,
-      _birthDate,
-      _age,
-      _cellphone,
-      _email,
-      _password,
-      _nroDoc,
-      _tipoDoc,
-      _rol
-    };
+   
     inline const std::string name =         "name";
     inline const std::string lastName =         "last_name";
     inline const std::string birthDate =        "birthdate";
@@ -27,19 +15,7 @@ namespace User
     inline const std::string tipoDoc =        "typeDoc";
     inline const std::string rol = "rol";
 
-    inline const std::unordered_map<fields, std::string> user_fields = 
-    {
-        {_name , name},
-        {_lastName , lastName},
-        {_birthDate , birthDate},
-        {_age , age},
-        {_cellphone , cellphone},
-        {_email , email},
-        {_password , password},
-        {_nroDoc, nroDoc},
-        {_tipoDoc, tipoDoc},
-        {_rol, rol}
-    };
+    
 }
 
 using string = std::string;
