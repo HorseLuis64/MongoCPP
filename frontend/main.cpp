@@ -68,6 +68,25 @@ void enviarDatos() {
     emscripten_fetch(&attr, "http://localhost:9080/data");
 }
 
+void enviarRegistro()
+{
+    user reg("omla@mail.com", "13");
+    std::string jsonD = userToJson(reg);
+    emscripten_fetch_attr_t attr;
+    emscripten_fetch_attr_init(&attr);
+    strcpy(attr.requestMethod, "POST");
+    attr.attributes = EMSCRIPTEN_FETCH_LOAD_TO_MEMORY;
+    attr.onsuccess = onSuccess;
+    attr.onerror = onError;
+
+    attr.requestData = jsonD.c_str();
+    attr.requestDataSize = jsonD.length();
+
+    const char* headers[] = {"Content-Type", "application/json", nullptr};
+    attr.requestHeaders = headers;
+    emscripten_fetch(&attr, "http://localhost:9080/register");
+}
+
 // --- Programa principal ---
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
@@ -77,7 +96,7 @@ int main(int argc, char *argv[]) {
     boton.show();
 
     QObject::connect(&boton, &QPushButton::clicked, []() {
-        enviarDatos();
+        enviarRegistro();
     });
 
     return app.exec();

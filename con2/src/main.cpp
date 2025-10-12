@@ -53,6 +53,7 @@ private:
 
         Routes::Post(router, "/login", Routes::bind(&RestApi::postLogin, this));
         Routes::Post(router, "/register", Routes::bind(&RestApi::postRegister, this));
+        Routes::Options(router, "/register", Routes::bind(&RestApi::handleOptions, this));
         Routes::Post(router, "/products", Routes::bind(&RestApi::postProduct, this));
 
         // Ruta estática para frontend - DEBE IR AL FINAL
@@ -253,7 +254,9 @@ void insertData(const Rest::Request& req, Http::ResponseWriter resp) {
             data[User::rol]
        );
         
-      handler->InsertRegister(fields);
+        handler->InsertRegister(fields);
+
+        resp.send(Pistache::Http::Code::Ok, "Registro recibido");
 
     }
     void postLogin(const Rest::Request& req, Http::ResponseWriter resp)

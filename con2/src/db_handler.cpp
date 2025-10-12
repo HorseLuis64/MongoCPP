@@ -147,7 +147,7 @@ namespace hdb
 
       users.insert_one(doc.view());
       std::cout<<"ingresado por objeto yupi\n";
-
+      return true;
     }
 
 }
