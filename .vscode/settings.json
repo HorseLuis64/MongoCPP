@@ -1,3 +1,5 @@
 {
-    "cmake.sourceDirectory": "/home/horse_pn64/HorseDev/CPP/TareaDB/weboo"
+  "files.exclude": {
+    "**/frontend": true
+  }
 }

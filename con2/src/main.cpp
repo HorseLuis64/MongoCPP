@@ -41,12 +41,18 @@ private:
         Routes::Options(router, "/data/:field/:value", Routes::bind(&RestApi::handleOptions, this));
         Routes::Options(router, "/*", Routes::bind(&RestApi::handleOptions, this));
 
-        // Rutas de la API
+        // Rutas de la API ----ENDPOINT DE PRUEBA
         Routes::Get(router, "/data", Routes::bind(&RestApi::getAllData, this));
         Routes::Get(router, "/data/:field/:value", Routes::bind(&RestApi::getOneData, this));
         Routes::Post(router, "/data", Routes::bind(&RestApi::insertData, this));
         Routes::Put(router, "/data/:field/:value", Routes::bind(&RestApi::updateData, this));
         Routes::Delete(router, "/data/:field/:value", Routes::bind(&RestApi::deleteData, this));
+
+        //TODO: RUTAS REALES
+
+        Routes::Post(router, "/login", Routes::bind(&RestApi::postLogin, this));
+        Routes::Post(router, "/register", Routes::bind(&RestApi::postRegister, this));
+        Routes::Post(router, "/products", Routes::bind(&RestApi::postProduct, this));
 
         // Ruta estática para frontend - DEBE IR AL FINAL
         Routes::Get(router, "/*", Routes::bind(&RestApi::serveStatic, this));
@@ -212,6 +218,35 @@ void insertData(const Rest::Request& req, Http::ResponseWriter resp) {
     void handleOptions(const Rest::Request& req, Http::ResponseWriter resp) {
         setCorsHeaders(resp);
         resp.send(Http::Code::Ok);
+    }
+
+    //TODO: MAKE POST/GET/UPDATE ROUTES
+    void postRegister(const Rest::Request& req, Http::ResponseWriter resp)
+    {
+      setCorsHeaders(resp);
+      std::string file = req.body();
+      json data = json::parse(file);
+
+        std::string name =      data[User::name];
+        std::string lastName =      data[User::lastName];
+        std::string birthDate =         data[User::birthDate];
+        std::string age =       data[User::age];
+        std::string cellphone =         data[User::cellphone];
+        std::string email =         data[User::email];
+        std::string password =      data[User::password];
+        std::string nroDoc =        data[User::nroDoc];
+        std::string tipoDoc =       data[User::tipoDoc];
+        std::string rol =           data[User::rol];
+      //handler->
+
+    }
+    void postLogin(const Rest::Request& req, Http::ResponseWriter resp)
+    {
+
+    }
+    void postProduct(const Rest::Request& req, Http::ResponseWriter resp)
+    {
+
     }
 
 public:

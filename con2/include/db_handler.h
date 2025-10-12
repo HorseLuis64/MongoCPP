@@ -5,6 +5,7 @@
 #include <mongocxx/uri.hpp>
 #include <bsoncxx/builder/stream/document.hpp>
 #include<bsoncxx/json.hpp>
+#include <unordered_map>
 
 namespace hdb {
   inline const std::string default_uri = "mongodb://localhost:27017";
@@ -14,6 +15,8 @@ namespace hdb {
       mongocxx::client client;
       mongocxx::database db;
       mongocxx::collection coll;
+      mongocxx::collection users;
+      mongocxx::collection products;
       mongocxx::uri uri;
       std::string dbName;
       std::string defaultCollection;
@@ -38,6 +41,16 @@ namespace hdb {
         return coll.find(doc.view());
       }
 
-  };
+
+
+      //TODO:: REAL DOCUMENTS METHODS
+      bool InsertRegister(const std::string )
+      bool VerifyLogin(const std::string email, const std::string password);
+
+  };  
+
   
 } // namespace hdb
+
+
+
